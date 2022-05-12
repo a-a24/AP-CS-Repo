@@ -18,4 +18,4 @@ class CoordinateGrid:
         for r in range(0,len(self.cGrid)):
             for c in range(0,len(self.cGrid[r])):
                 if self.cGrid[r][c]>0:
-                    pygame.draw.rect(screen, red, (c*self.pixelSize, r*self.pixelSize, self.pixelSize,self.pixelSize))
+                    pygame.draw.rect(screen, red, (c, r, self.pixelSize,self.pixelSize))
