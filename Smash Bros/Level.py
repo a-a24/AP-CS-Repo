@@ -11,6 +11,14 @@ class Level:
     def getGrid(self):
         return self.cGrid
 
+    def getTangible(self):
+        tangibles = []
+        for row in self.cGrid:
+            for tile in row:
+                if tile.tileType>0:
+                    tangibles.append(tile)
+        return tangibles
+
     def setTile(self,x,y,type):
         self.cGrid[y][x].setType(type)
 
