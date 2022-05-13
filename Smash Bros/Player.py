@@ -10,10 +10,6 @@ class Player:
         self.jumps = 0
         self.height = 1
         self.health = 100
-        self.left = False
-        self.right = False
-        self.jumps = 0
-        self.health = 100
 
     def update(self):
         if self.left == True:
@@ -71,7 +67,6 @@ class Player:
             if abs(player.x - self.x) < 10 and abs(player.y - self.y) < 10:
                 player.health -= 10
         
-
     def draw(self, screen, pixelSize):
         pygame.draw.circle(screen, (0,255,0),(self.x * pixelSize,self.y * pixelSize), self.height * pixelSize)
         # pygame.draw.rect(screen, (255,0,0),(100,650,800,10))
