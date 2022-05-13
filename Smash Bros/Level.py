@@ -4,10 +4,8 @@ from pprint import pprint
 
 red = (255,0,0)
 class Level:
-    pixelSize = 0
     cGrid = []
     def __init__(self, pSize, xMax, yMax):
-        self.pixelSize = pSize
         self.cGrid = [[Tile(j,i,pSize) for j in range(xMax)] for i in range(yMax)]
 
     def getGrid(self):
