@@ -56,10 +56,11 @@ class Player:
             self.vy = -8
             self.jumps -=1
 
-    def attack(self, enemies):
-        for player in player:
-            if abs(player.x - self.x) < 10 and abs(player.y - self.y) < 10:
-                player.health -= 10
+    def attack(self, players):
+        for player in players:
+            if (player != self):
+                if abs(player.x - self.x) < 10 and abs(player.y - self.y) < 10:
+                    player.health -= 10
         
     def draw(self, screen, pixelSize):
         pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.height * pixelSize)
