@@ -68,7 +68,7 @@ class Player:
 
     def attack(self, enemies):
         for enemy in enemies:
-            if enemy.x < 10 and enemy.y < 10:
+            if abs(enemy.x - self.x) < 10 and abs(enemy.y - self.y) < 10:
                 enemy.health -= 10
         
 
