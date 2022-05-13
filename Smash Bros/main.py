@@ -1,14 +1,16 @@
 import pygame
 from pygame.locals import JOYBUTTONDOWN, JOYBUTTONUP, JOYAXISMOTION, JOYHATMOTION
 from Player import Player
+from Level import Level
 
 pygame.init()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
-print(len(joysticks) " controllers detected.")
+# print(len(joysticks) " controllers detected.")
 
 screen = pygame.display.set_mode((1000, 800))
 players = [Player(50, 50), Player(10, 10)]
+level = Level(10, 100, 80)
 
 while True:
     screen.fill((0, 0, 0))
@@ -29,7 +31,8 @@ while True:
     for p in players:
         p.update()
         p.draw(screen)
-
+    level.turnOn(25,25)
+    level.draw(screen)
     pygame.display.update()
 
 
