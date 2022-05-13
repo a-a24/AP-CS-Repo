@@ -5,15 +5,11 @@ class Tile:
     tileType = 0 #0-empty 1-block
     x = 0
     y = 0
-    def __init__(self, xCoord, yCoord):
+    def __init__(self, xCoord, yCoord, tileType = 0):
         self.x = xCoord
         self.y = yCoord
+        self.tileType = tileType
     
-    # def __init__(self, xCoord, yCoord, tileType):
-    #     self.x = xCoord
-    #     self.y = yCoord
-    #     self.tileType = tileType
-
     def getType(self):
         return self.tileType
 
