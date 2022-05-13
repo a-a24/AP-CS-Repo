@@ -1,4 +1,3 @@
-
 import pygame
 
 class Player:
@@ -11,6 +10,28 @@ class Player:
         self.jumps = 0
         self.height = 1
         self.health = 100
+        self.left = False
+        self.right = False
+        self.jumps = 0
+        self.health = 100
+
+    def update(self):
+        if self.left == True:
+            self.x -= 1
+        if self.right == True:
+            self.x += 1
+
+        self.vy +=.12
+        if self.vy > 0.0:
+            if 650> self.y > 630:
+                if 100< self.x <900:
+                    self.jumps = 2
+                    self.vy = 0
+        if self.vy > 0.0:
+            if 395>self.y > 385:
+                if 300<self.x<700:
+                    self.jumps = 2
+                    self.vy = 0
 
 
     def update(self, level, dt):
@@ -44,8 +65,12 @@ class Player:
         if self.jumps > 0:
             self.vy = -8
             self.jumps -=1
-        
 
+    def attack(self, enemies):
+        for enemy in enemies:
+            if enemy.x < 10 and enemy.y < 10:
+                enemy.health -= 10
+        
 
     def draw(self, screen, pixelSize):
         pygame.draw.circle(screen, (0,255,0),(self.x * pixelSize,self.y * pixelSize), self.height * pixelSize)
