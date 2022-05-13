@@ -67,9 +67,9 @@ class Player:
             self.jumps -=1
 
     def attack(self, enemies):
-        for enemy in enemies:
-            if abs(enemy.x - self.x) < 10 and abs(enemy.y - self.y) < 10:
-                enemy.health -= 10
+        for player in player:
+            if abs(player.x - self.x) < 10 and abs(player.y - self.y) < 10:
+                player.health -= 10
         
 
     def draw(self, screen, pixelSize):
