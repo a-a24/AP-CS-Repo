@@ -8,17 +8,10 @@ class Player:
         self.vx = 0
         self.vy = 0
         self.name = "Temporary"
-<<<<<<< HEAD
-        self.left = False
-        self.right = False
         self.jumps = 0
-<<<<<<< HEAD
         self.height = 1
-=======
-=======
         self.health = 100
->>>>>>> 9481c79 (Added health)
->>>>>>> 62af223 (Attacking)
+
 
     def update(self, level, dt):
         self.vy += 12 * dt
