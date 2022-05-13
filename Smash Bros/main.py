@@ -31,7 +31,9 @@ while True:
     for p in players:
         p.update()
         p.draw(screen)
-    level.turnOn(25,25)
+    level.setTile(25,25,1)
+    level.setTile(26,25,2)
+
     level.draw(screen)
     pygame.display.update()
 
