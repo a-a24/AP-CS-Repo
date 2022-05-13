@@ -20,7 +20,7 @@ level = Level(pixelSize, 100, 80)
 for i in range(20):
     level.setTile(i + 10, 25,1)
 
-players = [Player(20, 3)]
+players = [Player(20, 3, (255, 0, 255)), Player(30, 3, (255, 255, 0))]
 
 
 lastUpdate = time.time()
@@ -31,29 +31,30 @@ while True:
     for event in events:
 
         if event.type == JOYBUTTONDOWN:
-            print('button', event.joy, event.button)
+            if event.button == 1:
+                players[event.joy].jump()
         if event.type == JOYAXISMOTION:
             print('axis motion', event.joy, event.axis, event.value)
             if event.axis < 2:
                 pass
         if event.type == JOYHATMOTION:
-            print('hat motion', event.joy, event.value)
-            pass
+            players[event.joy].move(event.value[0])
         if event.type == pygame.MOUSEBUTTONDOWN:
             print("CLICK!")
         if event.type == pygame.KEYDOWN:
+            p = players[pygame.joystick.get_count()]
             if event.key == pygame.K_UP:
-                players[0].Jump()
+                p.jump()
            
             if event.key == pygame.K_LEFT:
-                players[0].goLeft()
+                p.goLeft()
                 
             if event.key == pygame.K_RIGHT:
-               players[0].goRight()
+               p.goRight()
                 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                players[0].stop()
+                p.stop()
         if event.type == pygame.QUIT:
             exit()
 

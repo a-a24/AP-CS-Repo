@@ -1,7 +1,7 @@
 import pygame
 
 class Player:
-    def __init__(self, x, y):
+    def __init__(self, x, y, color):
         self.x = x
         self.y = y
         self.vx = 0
@@ -10,25 +10,11 @@ class Player:
         self.jumps = 0
         self.height = 1
         self.health = 100
-
-    def update(self):
-        if self.left == True:
-            self.x -= 1
-        if self.right == True:
-            self.x += 1
-
-        self.vy +=.12
-        if self.vy > 0.0:
-            if 650> self.y > 630:
-                if 100< self.x <900:
-                    self.jumps = 2
-                    self.vy = 0
-        if self.vy > 0.0:
-            if 395>self.y > 385:
-                if 300<self.x<700:
-                    self.jumps = 2
-                    self.vy = 0
-
+        self.left = False
+        self.right = False
+        self.jumps = 0
+        self.health = 100
+        self.color = color
 
     def update(self, level, dt):
         self.vy += 12 * dt
@@ -53,10 +39,18 @@ class Player:
     def goRight(self):
         self.vx = 8
     
+    def move(self, dir):
+        if (dir == -1):
+            self.goLeft()
+        elif (dir == 1):
+            self.goRight()
+        else:
+            self.stop()
+    
     def stop(self):
         self.vx = 0
 
-    def Jump(self):
+    def jump(self):
         print(self.jumps)
         if self.jumps > 0:
             self.vy = -8
@@ -68,6 +62,6 @@ class Player:
                 player.health -= 10
         
     def draw(self, screen, pixelSize):
-        pygame.draw.circle(screen, (0,255,0),(self.x * pixelSize,self.y * pixelSize), self.height * pixelSize)
+        pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.height * pixelSize)
         # pygame.draw.rect(screen, (255,0,0),(100,650,800,10))
         # pygame.draw.rect(screen, (255,0,0),(300,400,400,10))
