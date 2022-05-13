@@ -10,7 +10,7 @@ joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_coun
 
 screen = pygame.display.set_mode((1000, 800))
 players = [Player(50, 50), Player(10, 10)]
-level = Level(10, 100, 80)
+level = Level(20, 100, 80)
 
 while True:
     screen.fill((0, 0, 0))
@@ -33,7 +33,6 @@ while True:
         p.draw(screen)
     level.setTile(25,25,1)
     level.setTile(26,25,2)
-
     level.draw(screen)
     pygame.display.update()
 

@@ -8,7 +8,7 @@ class Level:
     cGrid = []
     def __init__(self, pSize, xMax, yMax):
         self.pixelSize = pSize
-        self.cGrid = [[Tile(j,i) for j in range(xMax)] for i in range(yMax)]
+        self.cGrid = [[Tile(j,i,pSize) for j in range(xMax)] for i in range(yMax)]
 
     def getGrid(self):
         return self.cGrid
@@ -19,5 +19,4 @@ class Level:
     def draw(self,screen):
         for r in range(0,len(self.cGrid)):
             for c in range(0,len(self.cGrid[r])):
-                if self.cGrid[r][c].getType()>0:
-                    self.cGrid[r][c].draw(screen)
+                self.cGrid[r][c].draw(screen)
