@@ -1,4 +1,5 @@
 import pygame
+import Level
 
 class Projectile:
     def __init__(self, direction, x, y, vx, pixelSize=20,  color = (255,0,0)):
@@ -8,12 +9,16 @@ class Projectile:
         self.vx = vx * direction
         self.pixelSize = pixelSize
         self.color = color
+        self.alive = True
         self.rect = pygame.Rect(self.x,self.y,pixelSize, pixelSize/2)
     
-    def update(self,dt):
+    def update(self,level,dt):
         self.rect.move_ip(self.vx*dt*self.pixelSize,0)
         if(self.x>900 or self.y >1000):
-            del self
+            self.alive = False
+        # for tangible in level.getTangible(): #this code lags a fuck ton 
+        #     if self.rect.colliderect(tangible):
+        #         self.alive = False
         
         
     def draw(self, screen):

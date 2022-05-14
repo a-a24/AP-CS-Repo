@@ -7,7 +7,7 @@ class Player:
         self.y = y
         self.vx = 0
         self.vy = 0
-        self.facing = 0
+        self.facing = 1
         self.name = "Temporary"
         self.jumps = 0
         self.height = 1
@@ -21,7 +21,8 @@ class Player:
 
     def update(self, level, dt):
         for projectile in self.projectiles:
-            projectile.update(dt)
+            if projectile.alive == True:
+                projectile.update(level,dt)
 
         self.vy += 12 * dt
 
@@ -66,6 +67,8 @@ class Player:
 
     def shoot(self):
         self.projectiles.append(Projectile(self.facing, self.x, self.y, 10))
+        if len(self.projectiles) > 15:
+            self.projectiles.pop(0)
 
     def attack(self, players):
         for player in players:
@@ -77,8 +80,8 @@ class Player:
 
     def draw(self, screen, pixelSize):
         for projectile in self.projectiles:
-            
-            projectile.draw(screen)
+            if projectile.alive == True:
+                projectile.draw(screen)
         pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.height * pixelSize)
         # pygame.draw.rect(screen, (255,0,0),(100,650,800,10))
         # pygame.draw.rect(screen, (255,0,0),(300,400,400,10))

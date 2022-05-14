@@ -19,6 +19,7 @@ level = Level(pixelSize, 100, 80)
 
 for i in range(20):
     level.setTile(i + 10, 25,1)
+    level.setTile(40,i+10,2)
 
 players = [Player(20, 3, (255, 0, 255)), Player(30, 3, (255, 255, 0))]
 

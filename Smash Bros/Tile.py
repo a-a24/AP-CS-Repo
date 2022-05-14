@@ -10,6 +10,7 @@ class Tile:
         self.y = yCoord
         self.pixelSize = pixelSize
         self.tileType = tileType
+        self.rect = (self.x*self.pixelSize, self.y*self.pixelSize, self.pixelSize, self.pixelSize)
     
     def getType(self):
         return self.tileType
@@ -19,8 +20,8 @@ class Tile:
 
     def draw(self, screen):
         if self.tileType == 1:
-            pygame.draw.rect(screen, (0, 255,100), (self.x*self.pixelSize, self.y*self.pixelSize, self.pixelSize, self.pixelSize))
+            pygame.draw.rect(screen, (0, 255,100), self.rect)
         elif self.tileType == 2:
-            pygame.draw.rect(screen, (139, 69, 19), (self.x*self.pixelSize, self.y*self.pixelSize, self.pixelSize, self.pixelSize))
+            pygame.draw.rect(screen, (139, 69, 19), self.rect)
         # pygame.draw.rect(screen, (50, 50, 50), (self.x*self.pixelSize, self.y*self.pixelSize, self.pixelSize, self.pixelSize), 1)
 
