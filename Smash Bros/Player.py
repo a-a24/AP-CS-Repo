@@ -48,7 +48,7 @@ class Player:
             self.stop()
     
     def stop(self):
-        self.vx = 0
+        self.vx *= 0.9
 
     def jump(self):
         print(self.jumps)

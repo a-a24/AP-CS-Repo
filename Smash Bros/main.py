@@ -28,8 +28,15 @@ lastUpdate = time.time()
 while True:
     screen.fill((0, 0, 0))
     events = pygame.event.get()
+    keys = pygame.key.get_pressed()
+    p = players[pygame.joystick.get_count()]
+    if keys[pygame.K_LEFT]:
+        p.goLeft()
+    elif keys[pygame.K_RIGHT]:
+        p.goRight()
+    else:
+        p.stop()
     for event in events:
-
         if event.type == JOYBUTTONDOWN:
             if event.button == 1:
                 players[event.joy].jump()
@@ -46,15 +53,15 @@ while True:
             if event.key == pygame.K_UP:
                 p.jump()
            
-            if event.key == pygame.K_LEFT:
-                p.goLeft()
+        #     if event.key == pygame.K_LEFT:
+        #         p.goLeft()
                 
-            if event.key == pygame.K_RIGHT:
-               p.goRight()
+        #     if event.key == pygame.K_RIGHT:
+        #        p.goRight()
                 
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                p.stop()
+        # elif event.type == pygame.KEYUP:
+        #     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+        #         p.stop()
         if event.type == pygame.QUIT:
             exit()
 
