@@ -1,4 +1,5 @@
 import pygame
+from Projectile import Projectile
 
 class Player:
     def __init__(self, x, y, color):
@@ -6,6 +7,7 @@ class Player:
         self.y = y
         self.vx = 0
         self.vy = 0
+        self.facing = 0
         self.name = "Temporary"
         self.jumps = 0
         self.height = 1
@@ -15,8 +17,12 @@ class Player:
         self.jumps = 0
         self.health = 100
         self.color = color
+        self.projectiles = []
 
     def update(self, level, dt):
+        for projectile in self.projectiles:
+            projectile.update(dt)
+
         self.vy += 12 * dt
 
         for row in level.cGrid:
@@ -35,9 +41,11 @@ class Player:
 
     def goLeft(self):
         self.vx = -8
+        self.facing = -1
       
     def goRight(self):
         self.vx = 8
+        self.facing = 1
     
     def move(self, dir):
         if (dir == -1):
@@ -56,13 +64,21 @@ class Player:
             self.vy = -8
             self.jumps -=1
 
+    def shoot(self):
+        self.projectiles.append(Projectile(self.facing, self.x, self.y, 10))
+
     def attack(self, players):
         for player in players:
             if (player != self):
                 if abs(player.x - self.x) < 10 and abs(player.y - self.y) < 10:
                     player.health -= 10
-        
+    
+    
+
     def draw(self, screen, pixelSize):
+        for projectile in self.projectiles:
+            
+            projectile.draw(screen)
         pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.height * pixelSize)
         # pygame.draw.rect(screen, (255,0,0),(100,650,800,10))
         # pygame.draw.rect(screen, (255,0,0),(300,400,400,10))

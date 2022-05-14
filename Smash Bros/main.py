@@ -52,9 +52,11 @@ while True:
             p = players[pygame.joystick.get_count()]
             if event.key == pygame.K_UP:
                 p.jump()
-           
-        #     if event.key == pygame.K_LEFT:
-        #         p.goLeft()
+            if event.key == pygame.K_SPACE:
+                p.shoot()
+                           
+            # if event.key == pygame.K_LEFT:
+            #     p.goLeft()
                 
         #     if event.key == pygame.K_RIGHT:
         #        p.goRight()
