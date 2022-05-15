@@ -69,10 +69,17 @@ while True:
             exit()
 
     level.draw(screen)
+    projectiles = []
+    for p in players:
+        projectiles += p.projectiles
+
     for p in players:
         dt = time.time() - lastUpdate
-        p.update(level, dt)
-        p.draw(screen, pixelSize)
+        p.checkCollisions(projectiles)
+        if p.health>0:
+            p.update(level, dt)
+            p.draw(screen, pixelSize)
+            
 
     lastUpdate = time.time()
     pygame.display.update()

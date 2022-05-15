@@ -1,3 +1,4 @@
+from xml.dom import xmlbuilder
 import pygame
 from Projectile import Projectile
 
@@ -40,6 +41,17 @@ class Player:
         self.x += self.vx * dt
         
 
+    def checkCollisions(self, projectiles):
+        otherProjectiles = list(set(projectiles) - set(self.projectiles)) + list(set(self.projectiles) - set(projectiles))
+        for projectile in otherProjectiles:
+                yMatch = projectile.y + .4 > (self.y + self.height) > projectile.y - .4
+                xMatch = projectile.x <= self.x <= projectile.x + 1
+                if yMatch and xMatch:
+                    print("hit")
+                    self.health -= 10
+                    projectile.alive = False
+            
+
     def goLeft(self):
         self.vx = -8
         self.facing = -1
@@ -67,7 +79,7 @@ class Player:
 
     def shoot(self):
         self.projectiles.append(Projectile(self.facing, self.x, self.y, 10))
-        if len(self.projectiles) > 15:
+        if len(self.projectiles) > 10:
             self.projectiles.pop(0)
 
     def attack(self, players):
@@ -79,6 +91,8 @@ class Player:
     
 
     def draw(self, screen, pixelSize):
+        if self.health<=0:
+            pygame.drawcircle(screen, (0,0,0),(self.x * pixelSize,self.y * pixelSize), self.height * pixelSize)
         for projectile in self.projectiles:
             if projectile.alive == True:
                 projectile.draw(screen)
