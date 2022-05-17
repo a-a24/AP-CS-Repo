@@ -11,15 +11,14 @@ joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_coun
 
 clock = pygame.time.Clock()
 
-screen = pygame.display.set_mode((1000, 800))
 
 pixelSize = 20
+screen = pygame.display.set_mode((50 * pixelSize, 40 * pixelSize))
 
-level = Level(pixelSize, 100, 80)
 
-for i in range(20):
-    level.setTile(i + 10, 25,1)
-    level.setTile(40,i+10,2)
+level = Level(pixelSize)
+level.addObstacle(10, 20, 20, 1, 1)
+level.addObstacle(5, 10, 1, 10, 2)
 
 players = [Player(20, 3, (255, 0, 255)), Player(30, 3, (255, 255, 0))]
 
@@ -53,8 +52,10 @@ while True:
             p = players[pygame.joystick.get_count()]
             if event.key == pygame.K_UP:
                 p.jump()
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_x:
                 p.shoot()
+            if event.key == pygame.K_z:
+                p.attack(players)
                            
             # if event.key == pygame.K_LEFT:
             #     p.goLeft()
@@ -73,15 +74,22 @@ while True:
     for p in players:
         projectiles += p.projectiles
 
-    for p in players:
-        dt = time.time() - lastUpdate
-        p.checkCollisions(projectiles)
-        if p.health>0:
-            p.update(level, dt)
-            p.draw(screen, pixelSize)
-            
-
+    dt = time.time() - lastUpdate
     lastUpdate = time.time()
+    for i in range(len(players)):
+        p = players[i]
+        p.checkCollisions(projectiles)
+        p.update(level, dt)
+        p.draw(screen, pixelSize, i)
+
+    livingPlayers = []
+    for i in range(len(players)):
+        if players[i].health > 0:
+            livingPlayers.append(i)
+    if len(livingPlayers) == 1:
+        print("Winner: " + str(livingPlayers[0]))
+        exit()
+
     pygame.display.update()
     clock.tick(30)
 
