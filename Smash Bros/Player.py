@@ -57,6 +57,7 @@ class Player:
                     print("hit")
                     self.health -= 10
                     projectile.alive = False
+                    self.vx += .5 * projectile.direction * projectile.vx
             
 
     def goLeft(self):
