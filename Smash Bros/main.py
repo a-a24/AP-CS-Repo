@@ -20,7 +20,7 @@ level = Level(pixelSize)
 level.addObstacle(10, 20, 20, 1, 1)
 level.addObstacle(5, 10, 1, 10, 2)
 
-players = [Player(20, 3, (255, 0, 255)), Player(30, 3, (255, 255, 0))]
+players = [Player(1,20, 3, (255, 0, 255)), Player(2,30, 3, (255, 255, 0))]
 
 
 lastUpdate = time.time()
@@ -78,7 +78,9 @@ while True:
     lastUpdate = time.time()
     for i in range(len(players)):
         p = players[i]
-        p.checkCollisions(projectiles)
+        for proj in p.projectiles:
+            proj.checkPlayerCollisions(players)
+        # p.checkCollisions(projectiles)
         p.update(level, dt)
         p.draw(screen, pixelSize, i)
 

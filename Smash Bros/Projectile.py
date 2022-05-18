@@ -2,7 +2,8 @@ import pygame
 import Level
 
 class Projectile:
-    def __init__(self, direction, x, y, vx, pixelSize=20,  color = (255,0,0)):
+    def __init__(self, playerNum, direction, x, y, vx, pixelSize=20,  color = (255,0,0)):
+        self.playerNum = playerNum
         self.direction = direction
         self.x = x
         self.y = y
@@ -19,9 +20,27 @@ class Projectile:
             return
         if(self.x < 0 or self.x > 900 or self.y >1000):
             self.alive = False
-        for tangible in level.getTangible(): #this code lags a fuck ton 
+        for tangible in level.getTangible(): #this code lags a  
             if self.rect.colliderect(tangible):
                 self.alive = False
+        
+    def checkPlayerCollisions(self, players):
+        for player in players:
+            if player.num == self.playerNum:
+                return
+            yMatch = player.y - .4 < (self.y) < self.y + .4
+
+            if not yMatch:
+                return    
+
+            predictedProjPos = self.x + self.vx*0.3
+            predictedPlayPos = player.x + player.vx*0.3
+            predictedDist = predictedProjPos - predictedPlayPos
+            currentDist = self.x - player.x
+            xMatch = player.x <= self.x <= player.x + 1
+            if  currentDist > predictedDist < 2:
+                if xMatch:
+                    player.hit(10)
 
 
     def update(self,level,dt):
