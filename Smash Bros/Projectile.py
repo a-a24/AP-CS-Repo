@@ -12,7 +12,7 @@ class Projectile:
         self.y = y
         self.radius = .3
         self.collisionCheckCounter = 0
-        self.dmg = 5
+        self.dmg = 1
         self.playerNum = playerNum
     
     def checkCollision(self, level, players):
@@ -29,7 +29,7 @@ class Projectile:
                 self.alive = False
 
         for p in players:
-            if p.num != self.playerNum:
+            if p.num != self.playerNum and p.health != 0:
                 if Util.distance(p.getRect(), self) < self.radius + p.radius:
                     p.health -= self.dmg
                     self.alive = False

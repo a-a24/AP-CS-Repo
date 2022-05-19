@@ -1,3 +1,4 @@
+from gc import get_count
 import pygame
 from pygame.locals import JOYBUTTONDOWN, JOYBUTTONUP, JOYAXISMOTION, JOYHATMOTION
 from Player import Player
@@ -20,7 +21,10 @@ level = Level(pixelSize)
 level.addObstacle(10, 20, 20, 1, 1)
 level.addObstacle(10, 15, 2, 10, 2)
 
-players = [Player(1, 20, 3, (255, 0, 255)), Player(2, 30, 3, (255, 255, 0))]
+players = []
+for i in range( pygame.joystick.get_count() + 1):
+    players.append(Player(i+1, i*5 + 10, 3, (255, 0, 255)))
+    #players = [Player(1, 20, 3, (255, 0, 255)), Player(2, 30, 3, (255, 255, 0))]
 
 
 lastUpdate = time.time()
@@ -38,14 +42,18 @@ while True:
         p.stop()
     for event in events:
         if event.type == JOYBUTTONDOWN:
-            if event.button == 1:
+            if event.button == 2:
                 players[event.joy].jump()
+            if event.button == 1:
+                players[event.joy].shoot()
+            if event.button == 0:
+                players[event.joy].attack(players)
         if event.type == JOYAXISMOTION:
             print('axis motion', event.joy, event.axis, event.value)
-            if event.axis < 2:
-                pass
+            
         if event.type == JOYHATMOTION:
             players[event.joy].move(event.value[0])
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             print("CLICK!")
         if event.type == pygame.KEYDOWN:
@@ -73,10 +81,11 @@ while True:
 
     dt = time.time() - lastUpdate
     lastUpdate = time.time()
+    toDo = []
     for i in range(len(players)):
         p = players[i]
         p.update(level, players, dt)
-        p.draw(screen, pixelSize, i)
+        p.draw(screen, pixelSize, i)      
 
     livingPlayers = []
     for i in range(len(players)):
@@ -88,5 +97,6 @@ while True:
 
     pygame.display.update()
     clock.tick(30)
+
 
 

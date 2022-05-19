@@ -90,7 +90,7 @@ class Player:
 
     def shoot(self):
         now = time.time()
-        if now - self.lastShot > .8:
+        if now - self.lastShot > .05:
             self.lastShot = now
             self.projectiles.append(Projectile(self.num, self.facing, self.x, self.y, 5 + abs(self.vx)))
             if len(self.projectiles) > 10:
@@ -107,7 +107,8 @@ class Player:
 
     def draw(self, screen, pixelSize, playerIndex):
         if self.health<=0:
-            pygame.draw.circle(screen, (0,0,0),(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
+            
+            pygame.draw.circle(screen, (0,0,0),(self.x * pixelSize,self.y -20 * pixelSize), self.radius * pixelSize)
         else:
             pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
         for projectile in self.projectiles:
