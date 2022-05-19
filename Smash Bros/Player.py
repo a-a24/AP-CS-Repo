@@ -6,7 +6,7 @@ pygame.font.init()
 my_font = pygame.font.SysFont('Comic Sans MS', 48)
 
 class Player:
-    def __init__(self,num, x, y, color):
+    def __init__(self, num, x, y, color):
         self.num = num
         self.x = x
         self.y = y
@@ -25,13 +25,13 @@ class Player:
         self.lastShot = 0
         self.projectiles = []
 
-    def update(self, level, dt):
+    def update(self, level, players, dt):
         if self.health <= 0:
             return
 
         for projectile in self.projectiles:
             if projectile.alive == True:
-                projectile.update(level,dt)
+                projectile.update(level,players,dt)
 
         self.vy += 12 * dt
 
@@ -68,6 +68,9 @@ class Player:
     def goRight(self):
         self.vx = 8
         self.facing = 1
+
+    def getRect(self):
+        return pygame.Rect(self.x,self.y, 2, 2)
     
     def move(self, dir):
         if (dir == -1):
@@ -81,7 +84,6 @@ class Player:
         self.vx *= 0.8
 
     def jump(self):
-        print(self.jumps)
         if self.jumps > 0:
             self.vy = -8
             self.jumps -=1
@@ -90,7 +92,7 @@ class Player:
         now = time.time()
         if now - self.lastShot > .8:
             self.lastShot = now
-            self.projectiles.append(Projectile(self.num, self.facing, self.x, self.y, 20 + abs(self.vx)))
+            self.projectiles.append(Projectile(self.num, self.facing, self.x, self.y, 5 + abs(self.vx)))
             if len(self.projectiles) > 10:
                 self.projectiles.pop(0)
 

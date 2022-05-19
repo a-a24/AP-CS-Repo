@@ -18,9 +18,9 @@ screen = pygame.display.set_mode((50 * pixelSize, 40 * pixelSize))
 
 level = Level(pixelSize)
 level.addObstacle(10, 20, 20, 1, 1)
-level.addObstacle(5, 10, 1, 10, 2)
+level.addObstacle(10, 15, 2, 10, 2)
 
-players = [Player(1,20, 3, (255, 0, 255)), Player(2,30, 3, (255, 255, 0))]
+players = [Player(1, 20, 3, (255, 0, 255)), Player(2, 30, 3, (255, 255, 0))]
 
 
 lastUpdate = time.time()
@@ -70,18 +70,12 @@ while True:
             exit()
 
     level.draw(screen)
-    projectiles = []
-    for p in players:
-        projectiles += p.projectiles
 
     dt = time.time() - lastUpdate
     lastUpdate = time.time()
     for i in range(len(players)):
         p = players[i]
-        for proj in p.projectiles:
-            proj.checkPlayerCollisions(players)
-        # p.checkCollisions(projectiles)
-        p.update(level, dt)
+        p.update(level, players, dt)
         p.draw(screen, pixelSize, i)
 
     livingPlayers = []
