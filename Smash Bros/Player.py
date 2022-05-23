@@ -79,6 +79,14 @@ class Player:
             self.goRight()
         else:
             self.stop()
+    def setVX(self, dir):
+        self.vx = dir * 8
+        if (dir > 0.1):
+            self.facing = 1
+        elif(dir < -0.1):
+            self.facing = -1
+        else:
+            self.stop()
     
     def stop(self):
         self.vx *= 0.8
@@ -107,8 +115,8 @@ class Player:
 
     def draw(self, screen, pixelSize, playerIndex):
         if self.health<=0:
-            
-            pygame.draw.circle(screen, (0,0,0),(self.x * pixelSize,self.y -20 * pixelSize), self.radius * pixelSize)
+            pass
+            #pygame.draw.circle(screen, (0,0,0),(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
         else:
             pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
         for projectile in self.projectiles:

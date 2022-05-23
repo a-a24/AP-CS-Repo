@@ -40,7 +40,7 @@ while True:
         p.goRight()
     else:
         p.stop()
-    for event in events:
+    for event in events:            
         if event.type == JOYBUTTONDOWN:
             if event.button == 2:
                 players[event.joy].jump()
@@ -50,7 +50,8 @@ while True:
                 players[event.joy].attack(players)
         if event.type == JOYAXISMOTION:
             print('axis motion', event.joy, event.axis, event.value)
-            
+            if event.axis == 0:
+                players[event.joy].setVX(event.value)
         if event.type == JOYHATMOTION:
             players[event.joy].move(event.value[0])
 
@@ -81,7 +82,6 @@ while True:
 
     dt = time.time() - lastUpdate
     lastUpdate = time.time()
-    toDo = []
     for i in range(len(players)):
         p = players[i]
         p.update(level, players, dt)
