@@ -27,6 +27,8 @@ class Player:
         self.projectiles = []
         self.onObstacle = Tile(0,0,0,0,0,0)
         self.goingDown = False
+        self.shielded = False
+        self.shieldHealth = 50
 
     def update(self, level, players, dt):
         if self.health <= 0:
@@ -130,17 +132,34 @@ class Player:
     def attack(self, players):
         for player in players:
             if (player != self):
-                if abs(player.x - self.x) < 3 and abs(player.y - self.y) < 3:
-                    player.health -= 10
+                if abs(player.x - self.x) < 10 and abs(player.y - self.y) < 10:
+                    if player.shielded:
+                        player.shieldHealth -= 10
+                    else:
+                        player.health -= 10
 
     def hit(self, damage):
         self.health -= damage
+    def shield(self, dt):
+        print(self.shieldHealth)
+        print(self.shielded)
+        if self.shieldHealth <= 0:
+            self.shielded = False
+            return
+        self.shielded = True
+        self.shieldHealth -= dt*10
+
+        
+        
 
     def draw(self, screen, pixelSize, playerIndex):
         if self.health<=0:
+            print(self.health)
             pass
             #pygame.draw.circle(screen, (0,0,0),(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
         else:
+            if self.shielded:
+                pygame.draw.circle(screen, (0,0,255),(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
             pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
         for projectile in self.projectiles:
             if projectile.alive == True:

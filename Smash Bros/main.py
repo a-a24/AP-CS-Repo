@@ -54,6 +54,8 @@ while True:
                 players[event.joy].shoot()
             if event.button == 0:
                 players[event.joy].attack(players)
+            if event.button == 5:
+                players[event.joy].shield(dt)
         if event.type == JOYAXISMOTION:
             print('axis motion', event.joy, event.axis, event.value)
             if event.axis == 0:

@@ -29,7 +29,9 @@ class Projectile:
                 self.alive = False
 
         for p in players:
-            if p.num != self.playerNum and p.health != 0:
+            if p.num != self.playerNum and p.health > 0:
+                if p.shielded:
+                    p.shieldHealth -= self.dmg
                 if Util.distance(p.getRect(), self) < self.radius + p.radius:
                     p.health -= self.dmg
                     self.alive = False
