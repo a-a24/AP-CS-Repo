@@ -98,6 +98,7 @@ class Player:
                 self.vy = 6
         else:
             self.goingDown = False
+        print(self.goingDown)
 
 
     def getRect(self):

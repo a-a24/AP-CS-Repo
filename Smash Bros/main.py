@@ -62,6 +62,8 @@ while True:
                 p.goRight()
             if event.key == pygame.K_UP:
                 p.jump()
+            if event.key == pygame.K_DOWN:
+                p.goDown()
             if event.key == pygame.K_x:
                 p.shoot()
             if event.key == pygame.K_z:
@@ -81,6 +83,8 @@ while True:
                 players[event.joy].joyAxisJump = False
             if event.axis == 1 and event.value >= -0.75:
                 players[event.joy].joyAxisJump = True
+            if event.axis == 1 and event.value > 0.75:
+                players[event.joy].goDown()
         if event.type == JOYBUTTONDOWN:
             if event.button == 0:
                 players[event.joy].attack(players)
