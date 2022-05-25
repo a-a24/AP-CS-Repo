@@ -24,7 +24,7 @@ level.addObstacle(40,20,20,1,3)
 level.addObstacle(10, 15, 2, 10, 2)
 
 players = []
-for i in range(pygame.joystick.get_count() + 1):
+for i in range(pygame.joystick.get_count() + 2):
     players.append(Player(i+1, i*5 + 10, 3, (255, 0, 255)))
     #players = [Player(1, 20, 3, (255, 0, 255)), Player(2, 30, 3, (255, 255, 0))]
 
@@ -40,6 +40,16 @@ while True:
     
     
     # Keybinds
+
+    p = players[pygame.joystick.get_count()]
+    if keys[pygame.K_LEFT]:
+        p.goLeft()
+    elif keys[pygame.K_RIGHT]:
+        p.goRight()
+    else:
+        p.stop()
+    if keys[pygame.K_DOWN]:
+        p.goDown()
     
     for event in events:
         
