@@ -3,6 +3,7 @@ import pygame
 class Tile:
     pixelSize = 10
     tileType = 0 #0-air 1-solid block 2-able to jump through, hit down button to go down through
+    #ice
     x = 0
     y = 0
     def __init__(self, xCoord, yCoord, width, height, pixelSize = 10, tileType = 0):
