@@ -1,3 +1,4 @@
+from asyncio import shield
 import time
 from Tile import Tile
 import pygame
@@ -29,10 +30,19 @@ class Player:
         self.goingDown = False
         self.shielded = False
         self.shieldHealth = 50
+        self.joyAxisJump = True
 
     def update(self, level, players, dt):
         if self.health <= 0:
             return
+        if self.shielded:
+            self.shieldHealth -= 10 * dt
+        else:
+            self.shieldHealth += 5 * dt
+            if self.shieldHealth > 50:
+                self.shieldHealth = 50
+        if self.shieldHealth <= 0:
+            self.shielded = False
 
         for projectile in self.projectiles:
             if projectile.alive == True:
@@ -117,13 +127,13 @@ class Player:
         self.goingDown = False
 
     def jump(self):
-        if self.jumps > 0:
+        if self.jumps > 0 and self.joyAxisJump:
             self.vy = -8
             self.jumps -=1
 
     def shoot(self):
         now = time.time()
-        if now - self.lastShot > .05:
+        if now - self.lastShot > .5:
             self.lastShot = now
             self.projectiles.append(Projectile(self.num, self.facing, self.x, self.y, 20))
             if len(self.projectiles) > 10:
@@ -133,34 +143,30 @@ class Player:
         for player in players:
             if (player != self):
                 if abs(player.x - self.x) < 10 and abs(player.y - self.y) < 10:
-                    if player.shielded:
-                        player.shieldHealth -= 10
-                    else:
+                    if not player.shielded:
                         player.health -= 10
+                    else:
+                        player.shieldHealth -= 10
 
     def hit(self, damage):
         self.health -= damage
     def shield(self, dt):
-        print(self.shieldHealth)
-        print(self.shielded)
-        if self.shieldHealth <= 0:
-            self.shielded = False
-            return
         self.shielded = True
-        self.shieldHealth -= dt*10
 
         
+
         
 
     def draw(self, screen, pixelSize, playerIndex):
         if self.health<=0:
-            print(self.health)
+            #print(self.health)
             pass
             #pygame.draw.circle(screen, (0,0,0),(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
         else:
             if self.shielded:
                 pygame.draw.circle(screen, (0,0,255),(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
-            pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
+            else:
+                pygame.draw.circle(screen, self.color,(self.x * pixelSize,self.y * pixelSize), self.radius * pixelSize)
         for projectile in self.projectiles:
             if projectile.alive == True:
                 projectile.draw(screen)
