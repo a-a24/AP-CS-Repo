@@ -37,17 +37,22 @@ class Player:
                 projectile.update(level,players,dt)
 
         self.vy += 12 * dt
-
+        # self.onObstacle = Tile(0,0,0,0,0,0)
         for obstacle in level.obstacles:
             if self.vy > 0.0 and obstacle.tileType > 0:
                 yMatch = obstacle.y + .4 > (self.y + self.radius) > obstacle.y - .4
                 xMatch = obstacle.x <= self.x <= obstacle.x + obstacle.width
 
+                yMatch2 = obstacle.y + 1 > (self.y + self.radius) > obstacle.y - 1
                 if yMatch and xMatch and not self.goingDown:
                     self.jumps = 2
                     self.vy = 0
                     self.y = obstacle.y - self.radius
                     self.onObstacle = obstacle
+                elif xMatch and yMatch2:
+                    self.onObstacle = obstacle
+                
+
 
         self.y += self.vy * dt
         self.x += self.vx * dt
@@ -74,10 +79,13 @@ class Player:
         self.facing = 1
 
     def goDown(self):
+        print(self.onObstacle.tileType)
         if self.onObstacle.tileType == 2:
             self.goingDown = True
             if self.vy == 0:
                 self.vy = 6
+        else:
+            self.goingDown = False
 
 
     def getRect(self):

@@ -19,7 +19,7 @@ screen = pygame.display.set_mode((50 * pixelSize, 40 * pixelSize))
 
 level = Level(pixelSize)
 level.addObstacle(10, 20, 20, 1, 1)
-level.addObstacle(10, 10, 15, 1, 2)
+level.addObstacle(10, 13, 15, 1, 2)
 level.addObstacle(40,20,20,1,3)
 level.addObstacle(10, 15, 2, 10, 2)
 
@@ -36,14 +36,16 @@ while True:
     events = pygame.event.get()
     keys = pygame.key.get_pressed()
     p = players[pygame.joystick.get_count()]
+
     if keys[pygame.K_LEFT]:
         p.goLeft()
     elif keys[pygame.K_RIGHT]:
         p.goRight()
-    elif keys[pygame.K_DOWN]:
-        p.goDown()
     else:
         p.stop()
+
+    if keys[pygame.K_DOWN]:
+        p.goDown()
     for event in events:            
         if event.type == JOYBUTTONDOWN:
             if event.button == 2:
@@ -69,16 +71,7 @@ while True:
                 p.shoot()
             if event.key == pygame.K_z:
                 p.attack(players)
-                           
-            # if event.key == pygame.K_LEFT:
-            #     p.goLeft()
-                
-        #     if event.key == pygame.K_RIGHT:
-        #        p.goRight()
-                
-        # elif event.type == pygame.KEYUP:
-        #     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-        #         p.stop()
+
         if event.type == pygame.QUIT:
             exit()
 
