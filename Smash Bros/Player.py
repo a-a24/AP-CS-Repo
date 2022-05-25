@@ -1,4 +1,5 @@
 import time
+from Tile import Tile
 import pygame
 from Projectile import Projectile
 
@@ -24,6 +25,8 @@ class Player:
         self.color = color
         self.lastShot = 0
         self.projectiles = []
+        self.onObstacle = Tile(0,0,0,0,0,0)
+        self.goingDown = False
 
     def update(self, level, players, dt):
         if self.health <= 0:
@@ -40,10 +43,11 @@ class Player:
                 yMatch = obstacle.y + .4 > (self.y + self.radius) > obstacle.y - .4
                 xMatch = obstacle.x <= self.x <= obstacle.x + obstacle.width
 
-                if yMatch and xMatch:
+                if yMatch and xMatch and not self.goingDown:
                     self.jumps = 2
                     self.vy = 0
                     self.y = obstacle.y - self.radius
+                    self.onObstacle = obstacle
 
         self.y += self.vy * dt
         self.x += self.vx * dt
@@ -69,6 +73,13 @@ class Player:
         self.vx = 8
         self.facing = 1
 
+    def goDown(self):
+        if self.onObstacle.tileType == 2:
+            self.goingDown = True
+            if self.vy == 0:
+                self.vy = 6
+
+
     def getRect(self):
         return pygame.Rect(self.x,self.y, 2, 2)
     
@@ -89,7 +100,11 @@ class Player:
             self.stop()
     
     def stop(self):
-        self.vx *= 0.8
+        if self.onObstacle.tileType == 3:
+            self.vx *= 0.95
+        else:
+            self.vx *= 0.8
+        self.goingDown = False
 
     def jump(self):
         if self.jumps > 0:
@@ -100,14 +115,14 @@ class Player:
         now = time.time()
         if now - self.lastShot > .05:
             self.lastShot = now
-            self.projectiles.append(Projectile(self.num, self.facing, self.x, self.y, 5 + abs(self.vx)))
+            self.projectiles.append(Projectile(self.num, self.facing, self.x, self.y, 20))
             if len(self.projectiles) > 10:
                 self.projectiles.pop(0)
 
     def attack(self, players):
         for player in players:
             if (player != self):
-                if abs(player.x - self.x) < 10 and abs(player.y - self.y) < 10:
+                if abs(player.x - self.x) < 3 and abs(player.y - self.y) < 3:
                     player.health -= 10
 
     def hit(self, damage):
