@@ -56,21 +56,12 @@ while True:
         # Keyboard
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                p.goLeft()        
-            if event.key == pygame.K_RIGHT:
-                p.goRight()
             if event.key == pygame.K_UP:
                 p.jump()
-            if event.key == pygame.K_DOWN:
-                p.goDown()
             if event.key == pygame.K_x:
                 p.shoot()
             if event.key == pygame.K_z:
                 p.attack(players)
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                p.stop()
 
         # Controller
     
